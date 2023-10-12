@@ -11,6 +11,8 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
+  console.log({ error });
+
   const { statusCode = 500, message } = error;
   if (res.headersSent) {
     return next(error);
