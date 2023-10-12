@@ -1,10 +1,8 @@
 import express from 'express';
+import router from './routes';
 
 const app = express();
 
-app.get('/', (req, res) => {
-  console.log(req.url);
-  res.send({ message: 'HELLO' });
-});
+app.use(router);
 
 export default app;
