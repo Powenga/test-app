@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@test-app/types": ["libs/types/src/index.ts"]
+      "@test-app/types": ["libs/types/src/index.ts"],
+      "@test-app/validation": ["libs/validation/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
