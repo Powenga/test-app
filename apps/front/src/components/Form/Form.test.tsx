@@ -1,8 +1,32 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 import Form from './Form';
 import '@testing-library/jest-dom';
 import { EMAIL_MAX, ValidationMessages } from '@test-app/validation';
 import { generateString } from '../../utils/test-utils';
+import { transformNumberField } from '../../utils';
+
+const users = [
+  {
+    email: 'email1@test.com',
+    number: '111111',
+  },
+  {
+    email: 'email2@test.com',
+    number: '222222',
+  },
+];
+
+const URL = 'http://localhost:3000/';
+
+const handlers = [
+  rest.post(URL, async (req, res, ctx) => {
+    return res(ctx.json(users), ctx.delay(100));
+  }),
+];
+
+const server = setupServer(...handlers);
 
 describe('Form', () => {
   beforeEach(() => {
@@ -81,6 +105,82 @@ describe('Form', () => {
       fireEvent.blur(numberInput);
       await waitFor(() => {
         expect(numberInput).toHaveValue('11-22-33');
+      });
+    });
+  });
+  describe('should process data', () => {
+    beforeAll(() => server.listen());
+    afterEach(() => server.resetHandlers());
+    afterAll(() => server.close());
+
+    it('should send request and show user list', async () => {
+      const { emailInput } = setup();
+      fireEvent.change(emailInput, { target: { value: 'some@test.com' } });
+      const button = screen.getByRole('button', { name: 'Search' });
+      await waitFor(() => {
+        expect(button).not.toBeDisabled();
+      });
+      fireEvent.click(button);
+      await waitFor(() => {
+        const items = screen.getAllByRole('listitem');
+        expect(items).toHaveLength(users.length);
+        const itemContent = items.map((item) => item.textContent);
+        expect(itemContent).toEqual(
+          users.map(
+            ({ email, number }) =>
+              `Email: ${email}, number: ${transformNumberField(number)}`
+          )
+        );
+      });
+    });
+
+    it('should show 404 error', async () => {
+      const USER_NOT_FOUND_MESSAGE = 'Users not found!';
+      server.use(
+        rest.post(URL, (req, res, ctx) => {
+          return res(
+            ctx.status(404),
+            ctx.json({ message: USER_NOT_FOUND_MESSAGE }),
+            ctx.delay(100)
+          );
+        })
+      );
+      const { emailInput } = setup();
+      fireEvent.change(emailInput, { target: { value: 'some@test.com' } });
+      const button = screen.getByRole('button', { name: 'Search' });
+      await waitFor(() => {
+        expect(button).not.toBeDisabled();
+      });
+      fireEvent.click(button);
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          USER_NOT_FOUND_MESSAGE
+        );
+      });
+    });
+
+    it('should show uncaught error message', async () => {
+      const MESSAGE = 'Something went wrong!';
+      server.use(
+        rest.post(URL, (req, res, ctx) => {
+          return res(
+            ctx.status(500),
+            ctx.json({ message: MESSAGE }),
+            ctx.delay(100)
+          );
+        })
+      );
+      const { emailInput } = setup();
+      fireEvent.change(emailInput, { target: { value: 'some@test.com' } });
+      const button = screen.getByRole('button', { name: 'Search' });
+      await waitFor(() => {
+        expect(button).not.toBeDisabled();
+      });
+      fireEvent.click(button);
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toHaveTextContent(
+          MESSAGE
+        );
       });
     });
   });
