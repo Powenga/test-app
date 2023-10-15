@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { findRequestBodySchema } from '@test-app/validation';
-import Input from '../Input/Input';
+import Input, { InputModes } from '../Input/Input';
 import styles from './Form.module.css';
 import { CANCELED_MESSAGE, api } from '../../utils/api';
 import { IUser } from '@test-app/types';
@@ -22,6 +22,16 @@ interface IState {
   users?: IUser[];
 }
 
+const NUMBER_MAX_CHARS = 8;
+
+function transformNumber(value: string) {
+  return value
+    .replace(/\D/g, '')
+    .match(/\d{1,2}/g)
+    ?.join('-')
+    .substring(0, NUMBER_MAX_CHARS);
+}
+
 const Form: FC<{ className?: string }> = ({ className = undefined }) => {
   const [state, setState] = useState<IState>({ status: 'idle' });
   const methods = useForm<Inputs>({
@@ -32,6 +42,7 @@ const Form: FC<{ className?: string }> = ({ className = undefined }) => {
     },
     resolver: yupResolver(findRequestBodySchema),
   });
+
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     setState({
       status: 'pending',
@@ -92,6 +103,7 @@ const Form: FC<{ className?: string }> = ({ className = undefined }) => {
 
   return (
     <FormProvider {...methods}>
+      {Math.random()}
       <form
         className={cn(b(), className)}
         onSubmit={methods.handleSubmit(onSubmit)}
@@ -109,6 +121,8 @@ const Form: FC<{ className?: string }> = ({ className = undefined }) => {
           name="number"
           className={b('input')}
           placeholder="number"
+          inputMode={InputModes.numeric}
+          transform={transformNumber}
         />
         <button type="submit" disabled={!methods.formState.isValid}>
           Search

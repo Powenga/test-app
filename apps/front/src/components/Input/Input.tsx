@@ -10,6 +10,10 @@ export enum InputTypes {
   text = 'text',
 }
 
+export enum InputModes {
+  numeric = 'numeric',
+}
+
 interface IIntup {
   id: string;
   name: string;
@@ -17,6 +21,8 @@ interface IIntup {
   placeholder?: string;
   required?: boolean;
   type?: InputTypes;
+  inputMode?: InputModes;
+  transform?: (value: string) => string | undefined;
 }
 
 const Input: FC<IIntup> = ({
@@ -26,6 +32,8 @@ const Input: FC<IIntup> = ({
   placeholder,
   required,
   type = InputTypes.text,
+  inputMode,
+  transform,
 }) => {
   const {
     field,
@@ -39,9 +47,21 @@ const Input: FC<IIntup> = ({
         placeholder={placeholder}
         required={required}
         aria-invalid={error ? 'true' : 'false'}
+        inputMode={inputMode}
         {...field}
+        onChange={(event) => {
+          if (transform) {
+            field.onChange(transform(event.target.value));
+          } else {
+            field.onChange(event.target.value);
+          }
+        }}
       />
-      {error && <span role="alert" className={b('error')}>{error.message}</span>}
+      {error && (
+        <span role="alert" className={b('error')}>
+          {error.message}
+        </span>
+      )}
     </label>
   );
 };
