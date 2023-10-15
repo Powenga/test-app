@@ -31,7 +31,6 @@ export const api = {
         return data;
       })
       .catch((error) => {
-        console.log({ error });
         if (error.code === ERR_CANCELED_CODE) {
           return Promise.reject(CANCELED_MESSAGE);
         }

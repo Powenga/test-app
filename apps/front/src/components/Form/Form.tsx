@@ -8,6 +8,7 @@ import Input, { InputModes } from '../Input/Input';
 import styles from './Form.module.css';
 import { CANCELED_MESSAGE, api } from '../../utils/api';
 import { IUser } from '@test-app/types';
+import { transformNumberField } from '../../utils';
 
 const b = block(styles);
 
@@ -20,18 +21,6 @@ interface IState {
   status: 'idle' | 'pending' | 'error' | 'success';
   error?: string;
   users?: IUser[];
-}
-
-const NUMBER_MAX_CHARS = 8;
-
-function transformNumber(value: string) {
-  return (
-    value
-      .replace(/\D/g, '')
-      .match(/\d{1,2}/g)
-      ?.join('-')
-      .substring(0, NUMBER_MAX_CHARS) || ''
-  );
 }
 
 const Form: FC<{ className?: string }> = ({ className = undefined }) => {
@@ -99,7 +88,7 @@ const Form: FC<{ className?: string }> = ({ className = undefined }) => {
             <li key={email} className={b('user-item')}>
               <span>
                 Email: <strong>{email}</strong>, number:{' '}
-                <strong>{transformNumber(number)}</strong>
+                <strong>{transformNumberField(number)}</strong>
               </span>
             </li>
           ))}
@@ -131,8 +120,8 @@ const Form: FC<{ className?: string }> = ({ className = undefined }) => {
           className={b('input')}
           placeholder="number"
           inputMode={InputModes.numeric}
-          transform={transformNumber}
-          label='number'
+          transform={transformNumberField}
+          label="number"
         />
         <button type="submit" disabled={!methods.formState.isValid}>
           Search
