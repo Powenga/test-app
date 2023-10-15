@@ -112,6 +112,7 @@ const Form: FC<{ className?: string }> = ({ className = undefined }) => {
   return (
     <FormProvider {...methods}>
       <form
+        name="users-search"
         className={cn(b(), className)}
         onSubmit={methods.handleSubmit(onSubmit)}
         noValidate
