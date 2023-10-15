@@ -27,7 +27,10 @@ const Input: FC<IIntup> = ({
   required,
   type = InputTypes.text,
 }) => {
-  const { field } = useController({ name });
+  const {
+    field,
+    fieldState: { error },
+  } = useController({ name });
   return (
     <label htmlFor={id}>
       <input
@@ -38,6 +41,7 @@ const Input: FC<IIntup> = ({
         className={cn(b(), className)}
         {...field}
       />
+      {error && <span>{error.message}</span>}
     </label>
   );
 };

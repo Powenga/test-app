@@ -2,8 +2,10 @@ import { FC } from 'react';
 import block from 'bem-css-modules';
 import cn from 'classnames';
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
-import styles from './Form.module.css';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { findRequestBodySchema } from '@test-app/validation';
 import Input from '../Input/Input';
+import styles from './Form.module.css';
 
 const b = block(styles);
 
@@ -19,6 +21,7 @@ const Form: FC<{ className?: string }> = ({ className = undefined }) => {
       email: '',
       number: '',
     },
+    resolver: yupResolver(findRequestBodySchema),
   });
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
   return (
