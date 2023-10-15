@@ -97,7 +97,7 @@ const Form: FC<{ className?: string }> = ({ className = undefined }) => {
             <li key={email} className={b('user-item')}>
               <span>
                 Email: <strong>{email}</strong>, number:{' '}
-                <strong>{number}</strong>
+                <strong>{transformNumber(number)}</strong>
               </span>
             </li>
           ))}
