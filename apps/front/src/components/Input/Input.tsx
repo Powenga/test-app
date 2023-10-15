@@ -23,6 +23,7 @@ interface IIntup {
   type?: InputTypes;
   inputMode?: InputModes;
   transform?: (value: string) => string;
+  label?: string;
 }
 
 const Input: FC<IIntup> = ({
@@ -34,6 +35,7 @@ const Input: FC<IIntup> = ({
   type = InputTypes.text,
   inputMode,
   transform,
+  label,
 }) => {
   const {
     field,
@@ -48,6 +50,7 @@ const Input: FC<IIntup> = ({
         required={required}
         aria-invalid={error ? 'true' : 'false'}
         inputMode={inputMode}
+        aria-label={label}
         {...field}
         onChange={(event) => {
           if (transform) {

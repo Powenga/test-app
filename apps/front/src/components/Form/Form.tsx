@@ -117,11 +117,13 @@ const Form: FC<{ className?: string }> = ({ className = undefined }) => {
         onSubmit={methods.handleSubmit(onSubmit)}
         noValidate
       >
+        <input type="text" />
         <Input
           id="user-email"
           name="email"
           className={b('input')}
           placeholder="email"
+          label="email"
           required
         />
         <Input
@@ -131,6 +133,7 @@ const Form: FC<{ className?: string }> = ({ className = undefined }) => {
           placeholder="number"
           inputMode={InputModes.numeric}
           transform={transformNumber}
+          label='number'
         />
         <button type="submit" disabled={!methods.formState.isValid}>
           Search
