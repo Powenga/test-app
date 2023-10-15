@@ -15,7 +15,7 @@ export const numberSchema = yup
   .string()
   .matches(numberRegex, {
     message: ValidationMessages.invalidNumver,
-    excludeEmptyString: false,
+    excludeEmptyString: true,
   })
   .typeError(ValidationMessages.stringRequired);
 
