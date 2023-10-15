@@ -22,7 +22,7 @@ interface IIntup {
   required?: boolean;
   type?: InputTypes;
   inputMode?: InputModes;
-  transform?: (value: string) => string | undefined;
+  transform?: (value: string) => string;
 }
 
 const Input: FC<IIntup> = ({

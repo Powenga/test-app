@@ -29,7 +29,7 @@ function transformNumber(value: string) {
     .replace(/\D/g, '')
     .match(/\d{1,2}/g)
     ?.join('-')
-    .substring(0, NUMBER_MAX_CHARS);
+    .substring(0, NUMBER_MAX_CHARS) || '';
 }
 
 const Form: FC<{ className?: string }> = ({ className = undefined }) => {
