@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import { ValidationMessages } from '../constants';
 
-const EMAIL_MAX = 50;
+export const EMAIL_MAX = 50;
 const numberRegex = /\d{6}/gi;
 
 export const emailSchema = yup

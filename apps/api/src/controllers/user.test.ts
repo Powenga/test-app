@@ -1,6 +1,10 @@
 import supertest from 'supertest';
 import app from '../app';
-import { TEST_USERS, userRequests } from '../__fixtures__/users';
+import {
+  TEST_USERS,
+  invalidUserRequests,
+  userRequests,
+} from '../__fixtures__/users';
 import { ErrorMessages } from '../utils/constants';
 
 const request = supertest(app);
@@ -76,4 +80,12 @@ describe('Find user request validation', () => {
       expect.not.objectContaining({ unxected: 'unexpected' })
     );
   });
+  it.each(invalidUserRequests)(
+    'should return Bad request error $name',
+    async ({ data, expected }) => {
+      const response = await request.post('/').send(data);
+      expect(response.status).toBe(400);
+      expect(response.body.message).toBe(expected);
+    }
+  );
 });
