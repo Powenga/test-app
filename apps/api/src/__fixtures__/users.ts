@@ -64,6 +64,6 @@ export const invalidUserRequests = [
   {
     name: 'with invalid number',
     data: { email: VALID_EMAIL, number: '1' },
-    expected: ValidationMessages.invalidNumver,
+    expected: ValidationMessages.invalidNumber,
   },
 ];

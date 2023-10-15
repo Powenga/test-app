@@ -3,5 +3,5 @@ export enum ValidationMessages {
   invalidEmail = 'Email invalid!',
   emailMax = 'The email field must be less than 50 characters!',
   emailRequired = 'The email field is required!',
-  invalidNumver = 'Number invalid!',
+  invalidNumber = 'Number invalid!',
 }

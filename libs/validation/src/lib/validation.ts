@@ -3,6 +3,7 @@ import { ValidationMessages } from '../constants';
 
 export const EMAIL_MAX = 50;
 const numberRegex = /^\d{6}$/;
+const numberFrontRegex = /^\d{2}-\d{2}-\d{2}$/;
 
 export const emailSchema = yup
   .string()
@@ -14,7 +15,7 @@ export const emailSchema = yup
 export const numberSchema = yup
   .string()
   .matches(numberRegex, {
-    message: ValidationMessages.invalidNumver,
+    message: ValidationMessages.invalidNumber,
     excludeEmptyString: true,
   })
   .typeError(ValidationMessages.stringRequired);
@@ -27,3 +28,11 @@ export const findRequestBodySchema = yup
   })
   .noUnknown(true)
   .required();
+
+export const numberFrontSchema = yup
+  .string()
+  .matches(numberFrontRegex, {
+    message: ValidationMessages.invalidNumber,
+    excludeEmptyString: true,
+  })
+  .typeError(ValidationMessages.stringRequired);
