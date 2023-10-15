@@ -105,7 +105,9 @@ const Form: FC<{ className?: string }> = ({ className = undefined }) => {
           className={b('input')}
           placeholder="number"
         />
-        <button type="submit">Search</button>
+        <button type="submit" disabled={!methods.formState.isValid}>
+          Search
+        </button>
         {renderContent()}
       </form>
     </FormProvider>
