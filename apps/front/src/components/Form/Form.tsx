@@ -3,7 +3,7 @@ import block from 'bem-css-modules';
 import cn from 'classnames';
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { findRequestBodySchema } from '@test-app/validation';
+import { findRequestBodySchema, numberFrontSchema } from '@test-app/validation';
 import Input, { InputModes } from '../Input/Input';
 import styles from './Form.module.css';
 import { CANCELED_MESSAGE, api } from '../../utils/api';
@@ -25,11 +25,13 @@ interface IState {
 const NUMBER_MAX_CHARS = 8;
 
 function transformNumber(value: string) {
-  return value
-    .replace(/\D/g, '')
-    .match(/\d{1,2}/g)
-    ?.join('-')
-    .substring(0, NUMBER_MAX_CHARS) || '';
+  return (
+    value
+      .replace(/\D/g, '')
+      .match(/\d{1,2}/g)
+      ?.join('-')
+      .substring(0, NUMBER_MAX_CHARS) || ''
+  );
 }
 
 const Form: FC<{ className?: string }> = ({ className = undefined }) => {
@@ -40,7 +42,11 @@ const Form: FC<{ className?: string }> = ({ className = undefined }) => {
       email: '',
       number: '',
     },
-    resolver: yupResolver(findRequestBodySchema),
+    resolver: yupResolver(
+      findRequestBodySchema.shape({
+        number: numberFrontSchema,
+      })
+    ),
   });
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
@@ -50,7 +56,7 @@ const Form: FC<{ className?: string }> = ({ className = undefined }) => {
       users: undefined,
     });
     api
-      .findUser(data)
+      .findUser({ email: data.email, number: data.number?.replace(/-/g, '') })
       .then((result) => {
         setState({
           status: 'success',
