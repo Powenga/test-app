@@ -29,6 +29,7 @@ const Form: FC<{ className?: string }> = ({ className = undefined }) => {
       <form
         className={cn(b(), className)}
         onSubmit={methods.handleSubmit(onSubmit)}
+        noValidate
       >
         <Input
           id="user-email"
