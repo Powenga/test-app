@@ -3,9 +3,29 @@
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
-  min-width: 300px
+  min-width: 300px;
 }
 
 .form__input {
   margin-bottom: 5px;
+}
+
+.form__error {
+  text-align: center;
+  color: red;
+}
+
+.form__user-list {
+  margin: 10px 0 0;
+  padding: 10px;
+  border: 1px solid gray;
+  list-style: none;
+}
+
+.form__user-item {
+  margin-bottom: 5px;
+}
+
+.form__user-item:last-child {
+  margin-bottom: 0;
 }

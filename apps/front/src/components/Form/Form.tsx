@@ -55,6 +55,32 @@ const Form: FC<{ className?: string }> = ({ className = undefined }) => {
         });
       });
   };
+
+  function renderContent() {
+    const { status, error, users } = state;
+    if (status === 'pending') {
+      return <p>Loading...</p>;
+    }
+    if (status === 'error' && error) {
+      return <p className={b('error')}>{state.error}</p>;
+    }
+    if (status === 'success' && users?.length) {
+      return (
+        <ul className={b('user-list')}>
+          {users.map(({ email, number }, index) => (
+            <li key={email} className={b('user-item')}>
+              <span>
+                Email: <strong>{email}</strong>, number:{' '}
+                <strong>{number}</strong>
+              </span>
+            </li>
+          ))}
+        </ul>
+      );
+    }
+    return null;
+  }
+
   return (
     <FormProvider {...methods}>
       <form
@@ -76,15 +102,7 @@ const Form: FC<{ className?: string }> = ({ className = undefined }) => {
           placeholder="number"
         />
         <button type="submit">Search</button>
-        {state.status === 'pending' && <span>Loading...</span>}
-        {state.status === 'error' && state.error && <span>{state.error}</span>}
-        {state.status === 'success' &&
-          state.users &&
-          state.users.map(({ email, number }) => (
-            <p key={email}>
-              email: {email}, number: {number}
-            </p>
-          ))}
+        {renderContent()}
       </form>
     </FormProvider>
   );
