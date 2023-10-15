@@ -50,11 +50,13 @@ const Form: FC<{ className?: string }> = ({ className = undefined }) => {
   });
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    setState({
-      status: 'pending',
-      error: undefined,
-      users: undefined,
-    });
+    if (state.status !== 'pending') {
+      setState({
+        status: 'pending',
+        error: undefined,
+        users: undefined,
+      });
+    }
     api
       .findUser({ email: data.email, number: data.number?.replace(/-/g, '') })
       .then((result) => {
