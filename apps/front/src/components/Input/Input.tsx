@@ -38,9 +38,10 @@ const Input: FC<IIntup> = ({
         id={id}
         placeholder={placeholder}
         required={required}
+        aria-invalid={error ? 'true' : 'false'}
         {...field}
       />
-      {error && <span className={b('error')}>{error.message}</span>}
+      {error && <span role="alert" className={b('error')}>{error.message}</span>}
     </label>
   );
 };

@@ -64,14 +64,16 @@ const Form: FC<{ className?: string }> = ({ className = undefined }) => {
     if (status === 'error' && error) {
       return (
         <div className={b('error-wrap')}>
-          <p className={b('error')}>{state.error}</p>
+          <p role="alert" className={b('error')}>
+            {state.error}
+          </p>
         </div>
       );
     }
     if (status === 'success' && users?.length) {
       return (
         <ul className={b('user-list')}>
-          {users.map(({ email, number }, index) => (
+          {users.map(({ email, number }) => (
             <li key={email} className={b('user-item')}>
               <span>
                 Email: <strong>{email}</strong>, number:{' '}
