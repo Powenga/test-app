@@ -32,16 +32,15 @@ const Input: FC<IIntup> = ({
     fieldState: { error },
   } = useController({ name });
   return (
-    <label htmlFor={id}>
+    <label htmlFor={id} className={cn(b(), className)}>
       <input
         type={type}
         id={id}
         placeholder={placeholder}
         required={required}
-        className={cn(b(), className)}
         {...field}
       />
-      {error && <span>{error.message}</span>}
+      {error && <span className={b('error')}>{error.message}</span>}
     </label>
   );
 };
