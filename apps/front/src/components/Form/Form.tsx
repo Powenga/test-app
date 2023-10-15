@@ -111,7 +111,6 @@ const Form: FC<{ className?: string }> = ({ className = undefined }) => {
 
   return (
     <FormProvider {...methods}>
-      {Math.random()}
       <form
         className={cn(b(), className)}
         onSubmit={methods.handleSubmit(onSubmit)}
