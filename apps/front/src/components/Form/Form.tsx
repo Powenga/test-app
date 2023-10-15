@@ -62,7 +62,11 @@ const Form: FC<{ className?: string }> = ({ className = undefined }) => {
       return <p>Loading...</p>;
     }
     if (status === 'error' && error) {
-      return <p className={b('error')}>{state.error}</p>;
+      return (
+        <div className={b('error-wrap')}>
+          <p className={b('error')}>{state.error}</p>
+        </div>
+      );
     }
     if (status === 'success' && users?.length) {
       return (
