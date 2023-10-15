@@ -7,7 +7,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
     "@swc/helpers": "~0.5.2",
-    "axios": "^1.0.0",
+    "axios": "^1.5.1",
     "bem-css-modules": "^1.4.3",
     "classnames": "^2.3.2",
     "express": "~4.18.1",
