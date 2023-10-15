@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { findRequestBodySchema } from '@test-app/validation';
 import Input from '../Input/Input';
 import styles from './Form.module.css';
-import { api } from '../../utils/api';
+import { CANCELED_MESSAGE, api } from '../../utils/api';
 import { IUser } from '@test-app/types';
 
 const b = block(styles);
@@ -48,6 +48,9 @@ const Form: FC<{ className?: string }> = ({ className = undefined }) => {
         });
       })
       .catch((error) => {
+        if (error === CANCELED_MESSAGE) {
+          return;
+        }
         setState({
           status: 'error',
           error: error,
