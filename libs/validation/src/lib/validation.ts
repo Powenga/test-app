@@ -13,7 +13,10 @@ export const emailSchema = yup
 
 export const numberSchema = yup
   .string()
-  .matches(numberRegex, ValidationMessages.invalidNumver)
+  .matches(numberRegex, {
+    message: ValidationMessages.invalidNumver,
+    excludeEmptyString: true,
+  })
   .typeError(ValidationMessages.stringRequired);
 
 export const findRequestBodySchema = yup
