@@ -6,6 +6,7 @@ const b = block(styles);
 export function App() {
   return (
     <div className={b()}>
+      <h1>User search</h1>
       <Form />
     </div>
   );
