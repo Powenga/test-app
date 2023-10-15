@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import { ValidationMessages } from '../constants';
 
 export const EMAIL_MAX = 50;
-const numberRegex = /\d{6}/gi;
+const numberRegex = /^\d{6}$/;
 
 export const emailSchema = yup
   .string()
@@ -15,7 +15,7 @@ export const numberSchema = yup
   .string()
   .matches(numberRegex, {
     message: ValidationMessages.invalidNumver,
-    excludeEmptyString: true,
+    excludeEmptyString: false,
   })
   .typeError(ValidationMessages.stringRequired);
 
